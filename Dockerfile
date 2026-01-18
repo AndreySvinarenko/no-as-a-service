@@ -1,4 +1,5 @@
 FROM docker.io/node:22-alpine
+LABEL org.opencontainers.image.source=https://github.com/AndreySvinarenko/no-as-a-service
 ENV NODE_ENV=production
 
 WORKDIR /app
