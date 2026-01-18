@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require("cors");
 const rateLimit = require('express-rate-limit');
 const fs = require('fs');
+const TelegramBot = require('node-telegram-bot-api');
 
 const app = express();
 app.use(cors());
@@ -33,3 +34,30 @@ app.get('/no', (req, res) => {
 app.listen(PORT, () => {
   console.log(`No-as-a-Service is running on port ${PORT}`);
 });
+
+// Telegram Bot - Inline mode for @whynoreasonbot
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_NO_AS_A_SERVICE_TOKEN;
+if (TELEGRAM_BOT_TOKEN) {
+  const bot = new TelegramBot(TELEGRAM_BOT_TOKEN, { polling: true });
+
+  bot.on('inline_query', (query) => {
+    const reason = reasons[Math.floor(Math.random() * reasons.length)];
+
+    const results = [{
+      type: 'article',
+      id: Math.random().toString(36).substring(2, 10),
+      title: 'No.',
+      description: reason,
+      input_message_content: {
+        message_text: `*No.*\n\n${reason}`,
+        parse_mode: 'Markdown'
+      }
+    }];
+
+    bot.answerInlineQuery(query.id, results, { cache_time: 0 });
+  });
+
+  console.log('Telegram bot started in inline mode');
+} else {
+  console.log('TELEGRAM_BOT_NO_AS_A_SERVICE_TOKEN not set, bot disabled');
+}
