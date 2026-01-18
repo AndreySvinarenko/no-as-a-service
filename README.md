@@ -50,7 +50,13 @@ Use it in apps, bots, landing pages, Slack integrations, rejection letters, or w
 
 ---
 
-## 🛠️ Self-Hosting
+## Telegram Bot
+
+The service includes an optional inline Telegram bot. Set the `TELEGRAM_BOT_NO_AS_A_SERVICE_TOKEN` environment variable with your bot token to enable it. Users can then type `@yourbotname` in any chat to get a random rejection reason instantly.
+
+---
+
+## Self-Hosting
 
 Want to run it yourself? It’s lightweight and simple.
 
@@ -111,8 +117,10 @@ For reference, here’s the package config:
   "author": "hotheadhacker",
   "license": "MIT",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.2",
-    "express-rate-limit": "^7.0.0"
+    "express-rate-limit": "^7.0.0",
+    "node-telegram-bot-api": "^0.66.0"
   }
 }
 ```
